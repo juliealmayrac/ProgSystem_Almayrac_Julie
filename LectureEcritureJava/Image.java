@@ -16,14 +16,14 @@ public class Image {
     public Image(int width, int hauteur) {
         this.width = width;
         this.height = height;
-        pixels = new int[hauteur][largeur][3];
+        pixels = new int[height][width][3];
     }
 
     /**
      * Définit la couleur d'un pixel à la position (x, y)
      */
     public void setPixel(int x, int y, int r, int g, int b) {
-        if (x >= 0 && x < largeur && y >= 0 && y < hauteur) {
+        if (x >= 0 && x < width && y >= 0 && y < height) {
             pixels[y][x][0] = r;
             pixels[y][x][1] = g;
             pixels[y][x][2] = b;
@@ -34,6 +34,29 @@ public class Image {
      * Sauvegarde l'image au format texte PPM (P3)
      */
     public void save_txt(String filename) throws IOException {
-        // TODO : écrire le fichier PPM avec FileWriter
+        try {
+            FileWriter writer = new FileWriter(filename);
+
+            writer.write("P3\n");
+            writer.write("3 2\n");
+            writer.write("255\n");
+			for (int lignes=0; lignes < this.height; lignes++) {
+				System.out.println("Boucle sur les lignes");
+				for (int colonnes=0; colonnes < this.width; colonnes++) {
+					System.out.println("Boucle sur les colonnes");
+					for (int couleurs=0; couleurs <= 2; couleurs++) {
+						System.out.println("Boucle sur les couleurs");
+						writer.write(pixels[lignes][colonnes][couleurs]+" ");
+					}
+				}
+				writer.write("\n");
+			}
+
+            writer.close(); // Fermeture du fichier
+
+            System.out.println("Image PPM créée avec succès !");
+        } catch (IOException e) {
+            System.err.println("Erreur lors de l'écriture du fichier : " + e.getMessage());
+        }
     }
 }
