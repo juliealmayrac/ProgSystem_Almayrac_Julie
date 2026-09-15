@@ -13,7 +13,7 @@ public class Image {
     /**
      * Constructeur : initialise une image vide.
      */
-    public Image(int width, int hauteur) {
+	public Image(int width, int height) {
         this.width = width;
         this.height = height;
         pixels = new int[height][width][3];
@@ -38,18 +38,15 @@ public class Image {
             FileWriter writer = new FileWriter(filename);
 
             writer.write("P3\n");
-            writer.write("3 2\n");
+            writer.write("200 100\n");
             writer.write("255\n");
 			for (int lignes=0; lignes < this.height; lignes++) {
-				System.out.println("Boucle sur les lignes");
 				for (int colonnes=0; colonnes < this.width; colonnes++) {
-					System.out.println("Boucle sur les colonnes");
 					for (int couleurs=0; couleurs <= 2; couleurs++) {
-						System.out.println("Boucle sur les couleurs");
-						writer.write(pixels[lignes][colonnes][couleurs]+" ");
+						writer.write(pixels[lignes][colonnes][couleurs] + " ");
 					}
+					writer.write("\n"); // saut de ligne 
 				}
-				writer.write("\n");
 			}
 
             writer.close(); // Fermeture du fichier
