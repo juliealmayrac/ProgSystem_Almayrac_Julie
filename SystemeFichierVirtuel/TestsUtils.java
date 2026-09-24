@@ -1,5 +1,9 @@
-public class TestUtils {
+public class TestsUtils {
 
+	public void main(String[] args) {
+		testStep2();
+	}
+	
 	public static void testStep2() {
 		System.out.println("=== TEST ÉTAPE 2 : Utils Entiers ===");
 
