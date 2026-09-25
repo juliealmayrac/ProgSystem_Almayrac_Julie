@@ -29,7 +29,7 @@ public class Utils {
     }
 	
 	public static int writeLong(byte[] memory, int offset, long value) {
-		for (indice=0; indice<=7; indice++) {
+		for (int indice=0; indice<=7; indice++) {
 			memory[offset+(7-indice)] = (byte) (value >> (indice*8) & 0xFF);
 		}
 		return 8;
@@ -37,33 +37,41 @@ public class Utils {
 
 	public static long readLong(byte[] memory, int offset) {
 		long valeurLong = 0;
-		for (indice=0; indice<=7; indice++) {
+		for (int indice=0; indice<=7; indice++) {
 			valeurLong += (long) (memory[offset+(7-indice)] & 0xFF) << (indice*8);
 		}
 		return valeurLong;
 	}
 
 	public static int writeString(byte[] memory, int offset, String str, int maxLength) {
-		int taille = Math.min(str.length;maxLength);
+		int taille = Math.min(str.length(),maxLength);
 		byte[] octets = str.getBytes();
-		for (indice=0; indice <= limite; indice++) {
-			memory[offset+(taille-indice)] = (byte) (octets[indice]) & 0xFF;
+		for (int indice=0; indice<taille; indice++) {
+			memory[offset+indice] = (byte) (octets[indice] & 0xFF);
 		}
 		
-		// TODO deuxième boucle si taille < maxLength
+		if (taille<maxLength) {
+			for (int indice=taille; indice<maxLength; indice++) {
+				memory[offset+indice] = 0; 
+			}
+		}
 		
 		return maxLength;
 	}
 
-	public static String readString(
-			byte[] memory,
-			int offset,
-			int maxLength) {
-
-		// TODO:
-		// Lire jusqu'au premier octet nul
-		// ou jusqu'à maxLength.
-
-		return "";
+	public static String readString(byte[] memory, int offset, int maxLength) {
+		int i = 0;
+		int taille = 0;
+		while (i<maxLength && memory[offset+i]!=0) {
+			i++;
+			//taille = i + 1;
+		}
+		byte[] str = new byte[/*taille*/i];
+		
+		for (int indice=0; indice</*taille*/i; indice++) {
+			str[indice] = memory[offset+indice];
+		}
+		
+		return new String(str);
 	}
 }
