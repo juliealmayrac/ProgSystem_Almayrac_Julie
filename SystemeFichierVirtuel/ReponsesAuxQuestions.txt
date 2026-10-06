@@ -1,0 +1,33 @@
+Questions de réflexion : 
+
+--1
+Il est nécessaire car big-endian définit l'ordre dans lequel les octets d'une valeur sont stockés en mémoire.
+Si writeInt utilisait big-endian mais supposait little-endian sur une autre machine, alors les octets seraient lus dans le mauvais ordre et la valeur ne serait plus la même.
+
+--2
+"memory[offset] & 0&FF" est une opération importante car elle permet d'interpréter un byte comme une valeur non signée.
+
+--3
+Ce serait insuffisant car le test ne vérifie que si readInt et writeInt fonctionnent ensemble.
+Il faut tester plusieurs valeurs de x;avec des bits différents.
+L'inspection directe des octets permet de détecter davantage de classes d'erreurs car elle vérifie le bon emplacement des octets dans le bon ordre.
+
+--4
+Il est plus compact car il utilise un seul bit par bloc.
+Pour n blocs la taille du bitmap serait de n/8 octets.
+
+--5
+Elles doivent occuper des zones mémoire déterministes pour que chaque partie du système sache trouver l'endroit exacte des données dont elle a besoin.
+Si la position du bitmap changeait sans que les méthodes soient modifiées, alors celles-ci agiraient sur les mauvaises zones mémoires.
+
+--6
+On les sépare pour éviter de mélanger les informations décrivant le fichier avec les données qu'il contient.
+L'inode permet de retrouver le contenu d'un fichier car il contient sa taille et les pointeurs pointant vers les blocs de données.
+
+--7
+"allocate()" doit commencer à rechercher à partir du bloc 129 car tous ceux d'avant concerne la strcuture du système de fichiers, ils sont donc réservés.
+Si la recherche commençait au bloc 0, alors les zones concernant la structure seraient corrompues.
+
+--8
+Deux systèmes différents peuvent avoir le même nombre de blocs libres avec des niveaux de fragmentation différents.
+Des blocs libres peuvent se trouver à la suite des unss des autres comme être fragmentés et donc dispersés.
